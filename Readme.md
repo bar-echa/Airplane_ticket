@@ -3,7 +3,7 @@
 A simple web application for reserving airline tickets, with email confirmation functionality using **Node.js**, **Express**, and **Nodemailer**.
 
 ---
-
+https://bar-echa.github.io/Airplane_ticket/
 ## Table of Contents
 
 - [Features](#features)
