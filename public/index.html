@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airline Ticket Reservation</title>
+<link rel="icon" href="images/image2.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+
+        <h1>Airline Ticket Reservation</h1>
+    </header>
+
+    <form class="reservation-form" id="reservationForm">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" required>
+
+        <label for="flight-date">Flight Date:</label>
+        <input type="date" id="flight-date" required> 
+
+        <label class="round-trip-section">
+            <input type="checkbox" id="roundTrip"> Round-Trip
+        </label>
+
+        <div id="returnDateContainer" style="display: none;">
+            <label for="return-date">Return Date:</label>
+            <input type="date" id="return-date">
+        </div>
+
+        <button type="submit">Reserve Ticket</button>
+            <p id="statusMessage"></p>
+
+    </form>
+
+
+    <script>
+        const roundTripCheckbox = document.getElementById("roundTrip");
+        const returnDateContainer = document.getElementById("returnDateContainer");
+
+        roundTripCheckbox.addEventListener("change", () => {
+            returnDateContainer.style.display = 
+                roundTripCheckbox.checked ? "block" : "none";
+        });
+
+        // Handle Form Submission
+        const form = document.getElementById("reservationForm");
+        const statusMessage = document.getElementById("statusMessage");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const flightDate = document.getElementById("flight-date").value;
+            const isRoundTrip = document.getElementById("roundTrip").checked;
+            const returnDate = document.getElementById("return-date").value;
+
+            // Build email message
+            let message = `Your flight reservation is confirmed.\n\n`;
+            message += `Flight Date: ${flightDate}\n`;
+
+            if (isRoundTrip) {
+                message += `Return Date: ${returnDate}\n`;
+            }
+
+            message += "\nThank you for booking with us!";
+
+            try {
+                const response = await fetch("/send-email", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        recipient: email,
+                        subject: "Your Airline Ticket Reservation",
+                        message: message
+                    })
+                });
+
+                const text = await response.text();
+                statusMessage.textContent = text;
+                statusMessage.style.color = response.ok ? "green" : "red";
+            } catch (error) {
+                statusMessage.textContent = "Error sending reservation email.";
+                statusMessage.style.color = "red";
+            }
+        });
+    </script>
+
+</body>
+</html>

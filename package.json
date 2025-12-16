@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "connect-flash": "^0.1.1",
+    "express": "^5.2.1",
+    "express-session": "^1.18.2",
+    "fs": "^0.0.1-security",
+    "nodemailer": "^7.0.11",
+    "nodemon": "^3.1.11",
+    "path": "^0.12.7",
+    "session": "^0.1.0",
+    "url": "^0.11.4"
+  }
+}
